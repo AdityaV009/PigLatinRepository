@@ -14,7 +14,7 @@ public class PigLatinTranslator
 
   public static String translate(String input)
   {
-    // System.out.println("Translate String: '" + input + "'");
+    System.out.println("Translate String: '" + input + "'");
 
     // Replace this code to translate a string input.
     // The input to this function could be any English string. 
@@ -27,10 +27,10 @@ public class PigLatinTranslator
 
   private static String translateWord(String input)
   {
-    // System.out.println("translateWord: '" + input + "'");
-
-    // Replace this code to correctly translate a single word.
-    // Start here first!
+    System.out.println("translateWord: '" + input + "'");
+    String temp = input;
+    temp = temp.substring(1)
+    
     String result = input;
     
     return result;

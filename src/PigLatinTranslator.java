@@ -1,43 +1,76 @@
-import java.lang.*;
-
 public class PigLatinTranslator
 {
-  public static Book translate(Book input)
-  {
-    Book translatedBook = new Book();
+    public static Book translate(Book input)
+    {
+        Book translatedBook = new Book();
+        for (int i = 0; i < input.getLineCount(); i++) {
+            String translatedLine = translate(input.getLine(i));
+            translatedBook.appendLine(translatedLine);
+        }
+        return translatedBook;
+    }
 
-    // Add code here to populate translatedBook with a translation of the input book.
-    // Curent do-nothing code will return an empty book.
+    public static String translate(String input)
+    {
+        StringBuilder translatedSentence = new StringBuilder();
+        int start = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (!Character.isLetter(input.charAt(i))) {
+                if (i > start) {
+                    translatedSentence.append(translateWord(input.substring(start, i)));
+                }
+                translatedSentence.append(input.charAt(i));
+                start = i + 1;
+            }
+        }
+        if (start < input.length()) {
+            translatedSentence.append(translateWord(input.substring(start)));
+        }
+        return translatedSentence.toString();
+    }
 
-    return translatedBook;
-  }
+    private static String translateWord(String input)
+    {
+        if (input.isEmpty()) {
+            return input;
+        }
 
-  public static String translate(String input)
-  {
-    System.out.println("Translate String: '" + input + "'");
+        boolean isCapitalized = isFirstLetterUppercase(input);
+        String lowerInput = input.toLowerCase();
+        String vowels = "aeiou";
+        String result;
 
-    // Replace this code to translate a string input.
-    // The input to this function could be any English string. 
-    // A sentence, paragraph, or a single word. 
-    // It should call translateWord at least once.
-    String result = translateWord(input);
+        if (vowels.indexOf(lowerInput.charAt(0)) >= 0) {
+            result = lowerInput + "ay";
+        } else {
+            int firstVowelIndex = findFirstVowel(lowerInput);
+            result = lowerInput.substring(firstVowelIndex) + lowerInput.substring(0, firstVowelIndex) + "ay";
+        }
 
-    return result;
-  }
+        return isCapitalized ? capitalizeFirstLetter(result) : result;
+    }
 
-  private static String translateWord(String input)
-  {
-    System.out.println("translateWord: '" + input + "'");
-    String temp = input;
-    temp = temp.substring(1)
-    
-    String result = input;
-    
-    return result;
-  }
+    private static int findFirstVowel(String input)
+    {
+        for (int i = 0; i < input.length(); i++) {
+            if ("aeiou".indexOf(input.charAt(i)) >= 0) {
+                return i;
+            }
+        }
+        return 0; // In case there's no vowel, return the whole word (though this should be rare).
+    }
 
-  // Add additonal private methods here.
-  // For example, I had one like this:
-  // private static String capitalizeFirstLetter(String input)
+    private static boolean isFirstLetterUppercase(String input)
+    {
+        return Character.isUpperCase(input.charAt(0));
+    }
 
+    private static String capitalizeFirstLetter(String word)
+    {
+        // Capitalize the first letter and make the rest lowercase
+        if (word.isEmpty()) {
+            return word;
+        }
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+    }
 }

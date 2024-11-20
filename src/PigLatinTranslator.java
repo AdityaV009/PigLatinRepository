@@ -66,7 +66,7 @@ public class PigLatinTranslator
     }
 
     private static String capitalizeFirstLetter(String word)
-    {
+    {// TrasH asHTray
         // Capitalize the first letter and make the rest lowercase
         if (word.isEmpty()) {
             return word;

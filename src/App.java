@@ -1,7 +1,6 @@
 public class App {
     public static void main(String[] args)
     {
-        TestSuite.run();
         // Starter book
         Book input = new Book();
         Book original = new Book();

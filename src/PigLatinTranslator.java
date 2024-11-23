@@ -36,12 +36,12 @@ public class PigLatinTranslator
         }
 
         boolean isCapitalized = isFirstLetterUppercase(input);
-        String lowerInput = input.toLowerCase();
-        String vowels = "aeiou";
+        String lowerInput = lowerBeforeVowel(input);
+        String vowels = "aeiouAEIOU";
         String result;
 
         if (vowels.indexOf(lowerInput.charAt(0)) >= 0) {
-            result = lowerInput + "ay";
+            result = lowerInput + "yay";
         } else {
             int firstVowelIndex = findFirstVowel(lowerInput);
             result = lowerInput.substring(firstVowelIndex) + lowerInput.substring(0, firstVowelIndex) + "ay";
@@ -53,11 +53,11 @@ public class PigLatinTranslator
     private static int findFirstVowel(String input)
     {
         for (int i = 0; i < input.length(); i++) {
-            if ("aeiou".indexOf(input.charAt(i)) >= 0) {
+            if ("aeiouAEIOU".indexOf(input.charAt(i)) >= 0) {
                 return i;
             }
         }
-        return 0; // In case there's no vowel, return the whole word (though this should be rare).
+        return 0;
     }
 
     private static boolean isFirstLetterUppercase(String input)
@@ -66,11 +66,19 @@ public class PigLatinTranslator
     }
 
     private static String capitalizeFirstLetter(String word)
-    {// TrasH asHTray
-        // Capitalize the first letter and make the rest lowercase
+    {
         if (word.isEmpty()) {
             return word;
         }
         return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
+    }
+
+    private static String lowerBeforeVowel(String input)
+    {
+        int firstVowelIndex = findFirstVowel(input);
+        String consonantCluster = input.substring(0, firstVowelIndex);
+        String restOfWord = input.substring(firstVowelIndex);
+        consonantCluster = consonantCluster.toLowerCase();
+        return consonantCluster + restOfWord;
     }
 }
